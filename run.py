@@ -18,12 +18,12 @@ def run():
 
     # Ask the user for the path they want to save the file after it has been downloaded
     path_to_save = input(
-        r"Enter where the file is to be saved or leave empty if you want it to be saved in the current directory: ")
+        r"Enter where the file is to be saved or leave empty if you want it to be saved in the current working directory: ")
 
-    where_to_save = f"{path_to_save}"
+    where_to_save = os.getcwd()
 
-    if path_to_save == "":
-        where_to_save = os.getcwd()
+    if path_to_save != "":
+        where_to_save = f"{path_to_save}"
 
     options = {
         # reduces the several line of output to barest minimal and therefore, time
@@ -50,6 +50,7 @@ def run():
             'preferredquality': '192',
         }]
     }
+
     with youtube_dl.YoutubeDL(options) as ydl:
         ydl.download([video_info['webpage_url']])
 
@@ -63,7 +64,3 @@ def run():
 
 if __name__ == '__main__':
     run()
-
-# %%
-
-# %%
