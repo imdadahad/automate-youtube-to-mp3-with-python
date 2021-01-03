@@ -1,4 +1,5 @@
 # %%
+from re import T
 import subprocess
 import youtube_dl
 import os
@@ -28,15 +29,11 @@ def run():
 
     options = {
         # reduces the several line of output to barest minimal and therefore, time
-        'quiet':
-        True,
-        'format':
-        'bestaudio/best',
-        'keepvideo':
-        False,
-        # f"{where_to_save}\\{filename}"
-        'outtmpl':
-        os.path.join(where_to_save, filename),
+        'quiet': True,
+        'noplaylist': True,
+        'format': 'bestaudio/best',
+        'keepvideo': False,
+        'outtmpl': os.path.join(where_to_save, filename),
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
