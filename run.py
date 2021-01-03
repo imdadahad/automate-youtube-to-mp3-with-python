@@ -27,6 +27,7 @@ def run():
         where_to_save = f"{path_to_save}"
 
     filename = f"{video_info['title']}.mp3"
+    output_path = os.path.join(where_to_save, filename)
 
     options = {
         # reduces the several line of output to barest minimal and therefore, time
@@ -34,7 +35,7 @@ def run():
         'noplaylist': True,
         'format': 'bestaudio/best',
         'keepvideo': False,
-        'outtmpl': os.path.join(where_to_save, filename),
+        'outtmpl': output_path,
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
