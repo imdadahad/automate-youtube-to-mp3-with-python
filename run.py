@@ -1,5 +1,4 @@
 # %%
-from re import T
 import subprocess
 import youtube_dl
 import os
