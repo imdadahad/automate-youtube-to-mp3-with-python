@@ -26,32 +26,16 @@ def run():
     if path_to_save != "":
         where_to_save = f"{path_to_save}"
 
+    filename = f"{video_info['title']}.mp3"
+    output_path = os.path.join(where_to_save, filename)
+
     options = {
         # reduces the several line of output to barest minimal and therefore, time
-        'quiet':
-        True,
-        'format':
-        'bestaudio/best',
-        'keepvideo':
-        False,
-        # f"{where_to_save}\\{filename}"
-        'outtmpl':
-        os.path.join(where_to_save, filename),
-        'postprocessors': [{
-            'key': 'FFmpegExtractAudio',
-            'preferredcodec': 'mp3',
-            'preferredquality': '192',
-        }]
-    }
-
-    filename = f"{video_info['title']}.mp3"
-    options = {
-        'format':
-        'bestaudio/best',
-        'keepvideo':
-        False,
-        'outtmpl':
-        filename,
+        'quiet': True,
+        'noplaylist': True,
+        'format': 'bestaudio/best',
+        'keepvideo': False,
+        'outtmpl': output_path,
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
