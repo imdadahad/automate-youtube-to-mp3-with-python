@@ -7,6 +7,10 @@ import os
 
 
 def run():
+    # Download single track or playlist
+    playlist_option = input(
+        "Enter 0 to download a playlist, or 1 to download a single video/audio track: ")
+
     # Ask the user for the video they want to download
     video_url = input("Please enter the YouTube Video URL: ")
     # Download and convert to mp3 and store in downloads folder
@@ -36,7 +40,7 @@ def run():
         def __init__(self, options_bin):
             #self.media_type = media_type
             self.options_bin = options_bin
-            #self.target_media = target_media
+            self.playlist_option = playlist_option
             self.video_target = {
                 "noplaylist": True,
                 "quiet": True,
@@ -47,7 +51,7 @@ def run():
                 'quiet': True,
                 'noplaylist': True,
                 'format': 'bestaudio/best',
-                'keepvideo': True,
+                # 'keepvideo': True,
                 'outtmpl': output_path,
                 'postprocessors': [{
                     'key': 'FFmpegExtractAudio',
@@ -56,22 +60,44 @@ def run():
                 }]
             }
 
-        def download_media(self, video_info):
+        def download_media(self, file_info):
             """
             docstring
             """
+            self.download_options(file_info)
+
+            if self.playlist_option != "1":
+                del self.audio_target["noplaylist"]
+                del self.video_target["noplaylist"]
+                self.download_options(file_info)
+
+        def download_options(self, file_info):
             if self.options_bin == "1":
-                with youtube_dl.YoutubeDL(self.audio_target) as ydl:
-                    ydl.download([video_info['webpage_url']])
+                self.download_target(self.audio_target, file_info)
 
             elif self.options_bin == '2':
-                with youtube_dl.YoutubeDL(self.video_target) as ydl:
-                    ydl.download([video_info['webpage_url']])
+                self.download_target(self.video_target, file_info)
 
             elif self.options_bin == '3':
                 for each_item in [self.audio_target, self.video_target]:
-                    with youtube_dl.YoutubeDL(each_item) as ydl:
-                        ydl.download([video_info['webpage_url']])
+                    self.download_target(each_item, file_info)
+
+            #     if self.options_bin == "1":
+            #         with youtube_dl.YoutubeDL(self.audio_target) as ydl:
+            #             ydl.download([video_info['webpage_url']])
+
+            #     elif self.options_bin == '2':
+            #         with youtube_dl.YoutubeDL(self.video_target) as ydl:
+            #             ydl.download([video_info['webpage_url']])
+
+            #     elif self.options_bin == '3':
+            #         pass
+
+        def download_target(self, target_media, info):
+            self.target_media = target_media
+            self.info = info
+            with youtube_dl.YoutubeDL(target_media) as ydl:
+                ydl.download([info['webpage_url']])
 
     audio_media_type = Download_Options(options_bin)
     audio_media_type.download_media(video_info)
@@ -86,3 +112,6 @@ def run():
 
 if __name__ == '__main__':
     run()
+
+
+# %%
